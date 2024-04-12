@@ -33,7 +33,7 @@ services:
           - node.role == evzvtogq7qqhjps1aed6w4spu
       replicas: 2
     ports:
-      - "80:80"
+      - "8080:8080"
       - "443:443"
     networks:
       - clinicalx_network
