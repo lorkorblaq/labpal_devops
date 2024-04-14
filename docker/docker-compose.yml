@@ -15,16 +15,16 @@ services:
     networks:
       - clinicalx_network
 
-  # clinicalx_nginx:
-  #   image: lorkorblaq/clinicalx_nginx:latest
-  #   depends_on:
-  #     - clinicalx_main
-  #     - clinicalx_api
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   networks:
-  #     - clinicalx_network
+  clinicalx_nginx:
+    image: lorkorblaq/clinicalx_nginx:latest
+    depends_on:
+      - clinicalx_main
+      - clinicalx_api
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - clinicalx_network
 
 networks:
   clinicalx_network:
