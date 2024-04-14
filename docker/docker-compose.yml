@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   clinicalx_main:
-    image: lorkorblaq/clinicalx_main:45
+    image: lorkorblaq/clinicalx_main:48
     ports:
       - "8080:8080"
     networks:
