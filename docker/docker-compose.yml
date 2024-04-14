@@ -33,10 +33,8 @@ services:
           - node.role == evzvtogq7qqhjps1aed6w4spu
       replicas: 2
     depends_on:
-      - serviceName: clinicalx_main
-        condition: service_healthy
-      - serviceName: clinicalx_api
-        condition: service_healthy  
+    - clinicalx_main
+    - clinicalx_api
     ports:
       - "80:80"
       - "443:443"
