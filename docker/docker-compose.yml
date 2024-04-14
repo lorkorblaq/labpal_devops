@@ -4,9 +4,9 @@ services:
   clinicalx_main:
     image: lorkorblaq/clinicalx_main:37
     deploy:
-      # placement:
-      #   constraints:
-      #     - node.id == s76e757i6qytdwppwhyqhaixa
+      placement:
+        constraints:
+          - node.id == s76e757i6qytdwppwhyqhaixa
       replicas: 2
     ports:
       - "8080:8080"
@@ -16,9 +16,9 @@ services:
   clinicalx_api:
     image: lorkorblaq/clinicalx_api:111
     deploy:
-      # placement:
-      #   constraints:
-      #     - node.id == swamoatwntzeb02rvbk0urtbc
+      placement:
+        constraints:
+          - node.id == swamoatwntzeb02rvbk0urtbc
       replicas: 2
     ports:
       - "3000:3000"
@@ -28,9 +28,9 @@ services:
   clinicalx_nginx:
     image: lorkorblaq/clinicalx_nginx:latest
     deploy:
-      # placement:
-      #   constraints:
-      #     - node.role == evzvtogq7qqhjps1aed6w4spu
+      placement:
+        constraints:
+          - node.role == evzvtogq7qqhjps1aed6w4spu
       replicas: 2
     ports:
       - "80:80"
