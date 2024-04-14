@@ -3,6 +3,11 @@ version: '3.8'
 services:
   clinicalx_main:
     image: lorkorblaq/clinicalx_main:37
+    deploy:
+      placement:
+        constraints:
+          - node.id == s76e757i6qytdwppwhyqhaixa
+      replicas: 2
     ports:
       - "8080:8080"
     networks:
@@ -10,6 +15,11 @@ services:
 
   clinicalx_api:
     image: lorkorblaq/clinicalx_api:111
+    deploy:
+      placement:
+        constraints:
+          - node.id == swamoatwntzeb02rvbk0urtbc
+      replicas: 2
     ports:
       - "3000:3000"
     networks:
@@ -17,9 +27,14 @@ services:
 
   clinicalx_nginx:
     image: lorkorblaq/clinicalx_nginx:latest
+    deploy:
+      placement:
+        constraints:
+          - node.role == evzvtogq7qqhjps1aed6w4spu
+      replicas: 2
     depends_on:
-      - clinicalx_main
-      - clinicalx_api
+    - clinicalx_main
+    - clinicalx_api
     ports:
       - "80:80"
       - "443:443"
@@ -28,4 +43,4 @@ services:
 
 networks:
   clinicalx_network:
-    driver: bridge
+    driver: overlay
