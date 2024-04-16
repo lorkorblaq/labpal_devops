@@ -8,6 +8,7 @@ services:
       - clinicalx_network
   clinicalx_api:
     image: lorkorblaq/clinicalx_api:latest
+    ports:
       - "3000:3000"
     networks:
       - clinicalx_network
