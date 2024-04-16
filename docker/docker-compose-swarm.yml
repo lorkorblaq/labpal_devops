@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   clinicalx_main:
-    image: lorkorblaq/clinicalx_main:37
+    image: lorkorblaq/clinicalx_main:latest
     deploy:
       placement:
         constraints:
@@ -14,7 +14,7 @@ services:
       - clinicalx_network
 
   clinicalx_api:
-    image: lorkorblaq/clinicalx_api:111
+    image: lorkorblaq/clinicalx_api:latest
     deploy:
       placement:
         constraints:
