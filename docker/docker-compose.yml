@@ -1,13 +1,13 @@
 version: '3.8'
 services:
   clinicalx_main:
-    image: lorkorblaq/clinicalx_main:55
+    image: lorkorblaq/clinicalx_main:57
     ports:
       - "8080:8080"
     networks:
       - clinicalx_network
   clinicalx_api:
-    image: lorkorblaq/clinicalx_api:111
+    image: lorkorblaq/clinicalx_api:112
     ports:
       - "3000:3000"
     networks:
