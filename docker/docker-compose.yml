@@ -6,12 +6,16 @@ services:
       - "8080:8080"
     networks:
       - clinicalx_network
+    restart: always
+  
   clinicalx_api:
     image: lorkorblaq/clinicalx_api:latest
     ports:
       - "3000:3000"
     networks:
       - clinicalx_network
+    restart: always
+  
   clinicalx_nginx:
     image: lorkorblaq/clinicalx_nginx:latest
     depends_on:
@@ -22,6 +26,7 @@ services:
       - "443:443"
     networks:
       - clinicalx_network
+    restart: always
 
 networks:
   clinicalx_network:
