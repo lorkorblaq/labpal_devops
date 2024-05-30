@@ -14,5 +14,5 @@ docker build -t lorkorblaq/clinicalx_api:latest -f ../../clinicalx_api/Dockerfil
 docker push lorkorblaq/clinicalx_api:latest
 
 # Build and push the second image
-docker build -t lorkorblaq/clinicalx_api:latest -f ../../clinicalx_main/Dockerfile ../../clinicalx_main
+docker build -t lorkorblaq/clinicalx_main:latest -f ../../clinicalx_main/Dockerfile ../../clinicalx_main
 docker push lorkorblaq/clinicalx_main:latest
