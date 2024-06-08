@@ -26,6 +26,9 @@ services:
       - "443:443"
     networks:
       - clinicalx_network
+    volumes:
+        - /etc/letsencrypt:/etc/letsencrypt
+        - /etc/nginx:/etc/nginx
     restart: always
 
 networks:
