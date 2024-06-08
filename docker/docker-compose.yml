@@ -16,19 +16,34 @@ services:
       - clinicalx_network
     restart: always
   
+  # clinicalx_nginx:
+  #   image: lorkorblaq/clinicalx_nginx:latest
+  #   depends_on:
+  #     - clinicalx_main
+  #     - clinicalx_api
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   networks:
+  #     - clinicalx_network
+  #   volumes:
+  #       - /etc/letsencrypt:/etc/letsencrypt
+  #       - /etc/nginx:/etc/nginx
+  #   restart: always
+
   clinicalx_nginx:
-    image: lorkorblaq/clinicalx_nginx:latest
+    image: nginx:latest
     depends_on:
       - clinicalx_main
       - clinicalx_api
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - ../nginx/clinicalx_nginx.conf:/etc/nginx/conf.d
     networks:
       - clinicalx_network
-    volumes:
-        - /etc/letsencrypt:/etc/letsencrypt
-        - /etc/nginx:/etc/nginx
     restart: always
 
 networks:
