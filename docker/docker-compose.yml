@@ -32,7 +32,7 @@ services:
   #   restart: always
 
   clinicalx_nginx:
-    image: lorkorblaq/clinicalx_nginx:latest
+    image: lorkorblaq/clinicalx_nginx:secure
     # image: nginx:latest
     depends_on:
       - clinicalx_main
