@@ -42,7 +42,7 @@ services:
       - "443:443"
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
-      - /clinicalx_nginx.conf:/etc/nginx/nginx.conf
+      # - /clinicalx_nginx.conf:/etc/nginx/nginx.conf.d
     networks:
       - clinicalx_network
     restart: always
