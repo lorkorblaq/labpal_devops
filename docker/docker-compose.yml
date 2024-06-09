@@ -32,7 +32,8 @@ services:
   #   restart: always
 
   clinicalx_nginx:
-    image: lorkorblaq/clinicalx_nginx:latest
+    # image: lorkorblaq/clinicalx_nginx:latest
+    image: nginx:latest
     depends_on:
       - clinicalx_main
       - clinicalx_api
@@ -41,7 +42,7 @@ services:
       - "443:443"
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
-      # - /clinicalx_nginx.conf:/etc/nginx/nginx.conf.d
+      - /clinicalx_nginx.conf:/etc/nginx/nginx.conf.d
     networks:
       - clinicalx_network
     restart: always
