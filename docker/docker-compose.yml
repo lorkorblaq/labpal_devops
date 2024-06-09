@@ -32,8 +32,8 @@ services:
   #   restart: always
 
   clinicalx_nginx:
-    # image: lorkorblaq/clinicalx_nginx:latest
-    image: nginx:latest
+    image: lorkorblaq/clinicalx_nginx:latest
+    # image: nginx:latest
     depends_on:
       - clinicalx_main
       - clinicalx_api
