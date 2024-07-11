@@ -9,7 +9,7 @@ services:
     restart: always
     depends_on:
       - clinicalx_api 
-      - labpal_api
+      # - labpal_api
   
   
   clinicalx_api:
@@ -20,16 +20,16 @@ services:
       - labpal_network
     restart: always
 
-  labpal_api:
-    image: lorkorblaq/labpal_gpt:latest
-    ports:
-      - "3500:3500"
-    networks:
-      - labpal_network
-    restart: always
+  # labpal_gpt_api:
+  #   image: lorkorblaq/labpal_gpt:latest
+  #   ports:
+  #     - "3500:3500"
+  #   networks:
+  #     - labpal_network
+  #   restart: always
 
 
-  clinicalx_nginx:
+  labpal_nginx:
     image: lorkorblaq/labpal_nginx:latest
     # image: nginx:latest
     depends_on:
