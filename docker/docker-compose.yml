@@ -29,7 +29,7 @@ services:
   #   restart: always
 
 
-  labpal_nginx:
+  clinicalx_nginx:
     image: lorkorblaq/clinicalx_nginx:secure
     # image: nginx:latest
     depends_on:
