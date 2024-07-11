@@ -19,3 +19,4 @@ echo "Starting Docker Compose..."
 docker-compose up -d --build
 
 echo "Deployment completed."
+
