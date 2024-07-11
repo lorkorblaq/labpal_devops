@@ -12,7 +12,7 @@ docker rm $(docker ps -a -q)
 echo "Removing Docker images..."
 docker rmi lorkorblaq/clinicalx_main:latest
 docker rmi lorkorblaq/clinicalx_api:latest
-docker rmi lorkorblaq/clinicalx_nginx:latest
+docker rmi lorkorblaq/labpal_nginx:latest
 
 # Run Docker Compose to start the services again
 echo "Starting Docker Compose..."
