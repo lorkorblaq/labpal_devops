@@ -30,7 +30,7 @@ services:
 
 
   labpal_nginx:
-    image: lorkorblaq/labpal_nginx:latest
+    image: lorkorblaq/clinicalx_nginx:secure
     # image: nginx:latest
     depends_on:
       - clinicalx_main
