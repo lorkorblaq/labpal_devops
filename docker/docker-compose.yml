@@ -42,10 +42,6 @@ services:
     networks:
       - labpal_network
     restart: always
-    depends_on:
-      - labpal_main
-      - labpal_api
-      - labpal_gpt
 
 networks:
   labpal_network:
