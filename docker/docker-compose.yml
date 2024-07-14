@@ -5,38 +5,37 @@ services:
     ports:
       - "8080:8080"
     networks:
-      - clinicalx_network
+      - labpal_network
     restart: always
+    depends_on:
+      - clinicalx_api 
+      - labpal_api
+  
   
   clinicalx_api:
     image: lorkorblaq/clinicalx_api:latest
     ports:
       - "3000:3000"
     networks:
-      - clinicalx_network
+      - labpal_network
     restart: always
-  
-  # clinicalx_nginx:
-  #   image: lorkorblaq/clinicalx_nginx:latest
-  #   depends_on:
-  #     - clinicalx_main
-  #     - clinicalx_api
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   networks:
-  #     - clinicalx_network
-  #   volumes:
-  #       - /etc/letsencrypt:/etc/letsencrypt
-  #       - /etc/nginx:/etc/nginx
-  #   restart: always
 
-  clinicalx_nginx:
-    image: lorkorblaq/clinicalx_nginx:secure
+  labpal_gpt:
+    image: lorkorblaq/labpal_gpt:latest
+    ports:
+      - "3500:3500"
+    networks:
+      - labpal_network
+    restart: always
+
+
+  labpal_nginx:
+    image: lorkorblaq/labpal_nginx:secure
     # image: nginx:latest
     depends_on:
       - clinicalx_main
       - clinicalx_api
+      - labpal_gpt
     ports:
       - "80:80"
       - "443:443"
@@ -44,9 +43,9 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt
       # - /clinicalx_nginx.conf:/etc/nginx/nginx.conf.d
     networks:
-      - clinicalx_network
+      - labpal_network
     restart: always
 
 networks:
-  clinicalx_network:
+  labpal_network:
     driver: bridge

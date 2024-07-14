@@ -4,19 +4,12 @@
 echo "Stopping Docker containers..."
 docker-compose down
 
-# Remove the Docker containers
-echo "Removing Docker containers..."
-docker rm $(docker ps -a -q)
+# Pull the latest images
+echo "Pulling the latest Docker images..."
+docker-compose pull
 
-# Remove the Docker images
-echo "Removing Docker images..."
-docker rmi lorkorblaq/clinicalx_main:latest
-docker rmi lorkorblaq/clinicalx_api:latest
-docker rmi lorkorblaq/clinicalx_nginx:secure
-
-# Run Docker Compose to start the services again
+# Start Docker Compose, rebuilding only if necessary
 echo "Starting Docker Compose..."
-docker-compose up -d --build
+docker-compose up -d
 
 echo "Deployment completed."
-
