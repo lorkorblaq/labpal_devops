@@ -1,19 +1,19 @@
 version: '3.8'
 services:
-  labpal_main:
-    image: lorkorblaq/labpal_main:latest
+  clinicalx_main:
+    image: lorkorblaq/clinicalx_main:latest
     ports:
       - "8080:8080"
     networks:
       - labpal_network
     restart: always
     depends_on:
-      - labpal_api 
+      - clinicalx_api 
       - labpal_api
   
   
-  labpal_api:
-    image: lorkorblaq/labpal_api:latest
+  clinicalx_api:
+    image: lorkorblaq/clinicalx_api:latest
     ports:
       - "3000:3000"
     networks:
@@ -33,8 +33,8 @@ services:
     image: lorkorblaq/labpal_nginx:secure
     # image: nginx:latest
     depends_on:
-      - labpal_main
-      - labpal_api
+      - clinicalx_main
+      - clinicalx_api
       - labpal_gpt
     ports:
       - "80:80"
