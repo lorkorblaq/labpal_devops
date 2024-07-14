@@ -14,14 +14,17 @@
 # docker push lorkorblaq/labpal_api:latest
 
 
-docker build -t lorkorblaq/labpal_nginx:secure -f ../../clinicalx_devops/nginx/Dockerfile ../../clinicalx_devops/nginx/
-docker push lorkorblaq/labpal_nginx:secure
+# docker build -t lorkorblaq/labpal_nginx:secure -f ../../clinicalx_devops/nginx/Dockerfile ../../clinicalx_devops/nginx/
+# docker push lorkorblaq/labpal_nginx:secure
 
 
 # Build and push the seconds image
 # docker build -t lorkorblaq/clinicalx_main:latest -f ../../clinicalx_main/Dockerfile ../../clinicalx_main
 # docker push lorkorblaq/clinicalx_main:latest
 
+# Build and push the gpt environment
+# docker build -t lorkorblaq/gpt_engine:latest -f ../../labpal_gpt/gptenv/Dockerfile ../../labpal_gpt/gptenv
+# docker push lorkorblaq/gpt_engine:latest
 
-# docker build -t lorkorblaq/labpal_gpt:latest -f ../../labpal_gpt/Dockerfile ../../labpal_gpt
-# docker push lorkorblaq/labpal_gpt:latest
+docker build -t lorkorblaq/labpal_gpt:latest -f ../../labpal_gpt/Dockerfile ../../labpal_gpt
+docker push lorkorblaq/labpal_gpt:latest
