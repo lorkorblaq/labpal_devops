@@ -8,7 +8,9 @@ services:
       - labpal_network
     restart: always
     depends_on:
+      - labpal_nginx
       - labpal_api
+      - labpal_gpt
   
   
   labpal_api:
@@ -31,10 +33,6 @@ services:
   labpal_nginx:
     image: lorkorblaq/labpal_nginx:secure
     # image: nginx:latest
-    depends_on:
-      - labpal_main
-      - labpal_api
-      - labpal_gpt
     ports:
       - "80:80"
       - "443:443"

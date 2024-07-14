@@ -11,7 +11,8 @@ docker rm $(docker ps -a -q)
 
 # Build and push the first image
 # docker build -t lorkorblaq/clinicalx_api:latest -f ../../clinicalx_api/Dockerfile ../../clinicalx_api
-# docker push lorkorblaq/clinicalx_api:latest
+# docker push lorkorblaq/labpal_api:latest
+
 
 # docker build -t lorkorblaq/labpal_nginx:secure -f ../../clinicalx_devops/nginx/Dockerfile ../../clinicalx_devops/nginx/
 # docker push lorkorblaq/labpal_nginx:secure
