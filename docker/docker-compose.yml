@@ -8,7 +8,6 @@ services:
       - labpal_network
     restart: always
     depends_on:
-      - labpal_api 
       - labpal_api
   
   
