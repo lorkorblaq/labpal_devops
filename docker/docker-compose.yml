@@ -10,7 +10,7 @@ services:
     depends_on:
       - labpal_nginx
       - labpal_api
-      - labpal_gpt
+      # - labpal_gpt
   
   
   labpal_api:
@@ -34,7 +34,7 @@ services:
     image: lorkorblaq/labpal_nginx:secure
     # image: nginx:latest
     ports:
-      - "80:80"
+      - "81:80"
       - "443:443"
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
