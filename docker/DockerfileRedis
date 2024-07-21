@@ -6,3 +6,6 @@ RUN mkdir -p /var/run/redis \
 COPY redis.conf /usr/local/etc/redis/redis.conf
 
 CMD ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+# docker build -t lorkorblaq/labpal_redis:latest -f ./DockerfileRedis .
+

@@ -47,7 +47,11 @@ services:
     networks:
       - labpal_network
     restart: always
-
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 networks:
   labpal_network:
     driver: bridge
