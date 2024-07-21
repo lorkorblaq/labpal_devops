@@ -10,8 +10,7 @@ services:
     depends_on:
       - labpal_nginx
       - labpal_api
-      # - labpal_gpt
-  
+      - labpal_redis  
   
   labpal_api:
     image: lorkorblaq/labpal_api:latest
@@ -29,10 +28,8 @@ services:
       - labpal_network
     restart: always
 
-
   labpal_nginx:
     image: lorkorblaq/labpal_nginx:secure
-    # image: nginx:latest
     ports:
       - "80:80"
       - "443:443"
@@ -43,6 +40,27 @@ services:
       - labpal_network
     restart: always
 
+  labpal_redis:
+    image: redis:7-bookworm
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      - labpal_network
+    command: redis-server /usr/local/etc/redis/redis.conf
+    restart: always
+
 networks:
   labpal_network:
     driver: bridge
+
+
+
+
+
+# docker run --name redis-server -d -p 6379:6379 redis:7-bookworm
+
+# docker pull redis:7-bookworm
+
+# v redis.conf:/usr/local/etc/redis/redis.conf redis:7-bookworm redis-server /usr/local/etc/redis/redis.conf
