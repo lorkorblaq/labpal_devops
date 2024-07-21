@@ -41,7 +41,7 @@ services:
     restart: always
 
   labpal_redis:
-    image: lorkorblaq/labpal_nginx:latest
+    image: lorkorblaq/labpal_redis:latest
     ports:
       - "6379:6379"
     networks:
