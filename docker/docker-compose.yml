@@ -20,18 +20,18 @@ services:
       - labpal_network
     restart: always
 
-  labpal_gpt:
-    image: lorkorblaq/labpal_gpt:latest
-    ports:
-      - "3500:3500"
-    networks:
-      - labpal_network
-    restart: always
-    deploy:
-      resources:
-        limits:
-          memory: 2g
-          cpus: "1.0"
+  # labpal_gpt:
+  #   image: lorkorblaq/labpal_gpt:latest
+  #   ports:
+  #     - "3500:3500"
+  #   networks:
+  #     - labpal_network
+  #   restart: always
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 2g
+  #         cpus: "1.0"
 
   labpal_nginx:
     image: lorkorblaq/labpal_nginx:secure

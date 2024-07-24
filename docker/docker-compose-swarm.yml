@@ -1,46 +1,88 @@
 version: '3.8'
 
 services:
-  clinicalx_main:
-    image: lorkorblaq/clinicalx_main:latest
-    deploy:
-      placement:
-        constraints:
-          - node.id == s76e757i6qytdwppwhyqhaixa
-      replicas: 2
+  labpal_main:
+    image: lorkorblaq/labpal_main:latest
     ports:
       - "8080:8080"
     networks:
-      - clinicalx_network
-
-  clinicalx_api:
-    image: lorkorblaq/clinicalx_api:latest
+      - labpal_network
+    restart: always
     deploy:
       placement:
         constraints:
-          - node.id == swamoatwntzeb02rvbk0urtbc
-      replicas: 2
+          - node.role == manager
+      depends_on:
+        - labpal_nginx
+        - labpal_api
+        - labpal_redis
+
+  labpal_api:
+    image: lorkorblaq/labpal_api:latest
     ports:
       - "3000:3000"
     networks:
-      - clinicalx_network
-
-  clinicalx_nginx:
-    image: lorkorblaq/clinicalx_nginx:latest
+      - labpal_network
+    restart: always
     deploy:
       placement:
         constraints:
-          - node.role == evzvtogq7qqhjps1aed6w4spu
-      replicas: 2
-    depends_on:
-    - clinicalx_main
-    - clinicalx_api
+          - node.role == manager
+
+  labpal_gpt:
+    image: lorkorblaq/labpal_gpt:latest
+    ports:
+      - "3500:3500"
+    networks:
+      - labpal_network
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+          cpus: "1.0"
+      placement:
+        constraints:
+          - node.role == worker
+
+  labpal_nginx:
+    image: lorkorblaq/labpal_nginx:secure
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
     networks:
-      - clinicalx_network
+      - labpal_network
+    restart: always
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+
+
+  labpal_redis:
+    image: lorkorblaq/labpal_redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - labpal_network
+    restart: always
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      healthcheck:
+        test: ["CMD", "redis-cli", "ping"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
 
 networks:
-  clinicalx_network:
+  labpal_network:
     driver: overlay
+
+configs:
+  nginx_config:
+    file: ./clinicalx_nginx.conf
+
