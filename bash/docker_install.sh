@@ -22,7 +22,7 @@ install_docker_compose() {
 # Function to initialize Docker Swarm
 initialize_docker_swarm() {
     echo "Initializing Docker Swarm..."
-    local advertise_addr="<MANAGER-IP>" # Replace with your manager's IP address
+    local advertise_addr="13.48.14.227" # Replace with your manager's IP address
     sudo docker swarm init --advertise-addr $advertise_addr
 }
 
@@ -30,7 +30,7 @@ initialize_docker_swarm() {
 setup_docker_swarm() {
     echo "Setting up Docker Swarm..."
     # Replace the placeholder with your Docker Swarm join command
-    local docker_swarm_join_command='docker swarm join --token SWMTKN-1-3rl5zgl9974mqrtyvojlgji2r0z2gmov3f0rx1iplpd4g9tbl3-cgegvls0sapjxul7bjevld0q1 51.20.2.93:2377'
+    local docker_swarm_join_command='docker swarm join --token SWMTKN-1-1kowe3y6v3mpgomzkip86qm8muqs4tfnfzzwlgap7muthz93f7-9ib3a1o5hnzc6cynb6z7oe69z 13.48.14.227:2377'
     sudo $docker_swarm_join_command
 }
 
@@ -56,7 +56,7 @@ install_docker_compose
 # initialize_docker_swarm
 
 # Setup Docker Swarm (join an existing Swarm)
-# setup_docker_swarm
+setup_docker_swarm
 
 # Add current user to the docker group
 sudo usermod -aG docker $USER
