@@ -27,6 +27,11 @@ services:
     networks:
       - labpal_network
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+          cpus: "1.0"
 
   labpal_nginx:
     image: lorkorblaq/labpal_nginx:secure
