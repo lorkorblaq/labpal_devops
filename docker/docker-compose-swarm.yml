@@ -12,10 +12,6 @@ services:
       placement:
         constraints:
           - node.role == manager
-      depends_on:
-        - labpal_nginx
-        - labpal_api
-        - labpal_redis
 
   labpal_api:
     image: lorkorblaq/labpal_api:latest
@@ -60,7 +56,6 @@ services:
         constraints:
           - node.role == manager
 
-
   labpal_redis:
     image: lorkorblaq/labpal_redis:latest
     ports:
@@ -82,7 +77,4 @@ networks:
   labpal_network:
     driver: overlay
 
-configs:
-  nginx_config:
-    file: ./clinicalx_nginx.conf
 
