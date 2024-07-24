@@ -47,7 +47,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
+      - letsencrypt_data:/etc/letsencrypt
     networks:
       - labpal_network
     restart: always
@@ -67,14 +67,16 @@ services:
       placement:
         constraints:
           - node.role == manager
-      # healthcheck:
-      #   test: ["CMD", "redis-cli", "ping"]
-      #   interval: 10s
-      #   timeout: 5s
-      #   retries: 5
+      healthcheck:
+        test: ["CMD", "redis-cli", "ping"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
 
 networks:
   labpal_network:
     driver: overlay
 
-
+volumes:
+  letsencrypt_data:
+    external: true
