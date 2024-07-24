@@ -53,10 +53,10 @@ install_docker_ubuntu
 install_docker_compose
 
 # Initialize Docker Swarm (only if this is the manager node)
-# initialize_docker_swarm
+initialize_docker_swarm
 
 # Setup Docker Swarm (join an existing Swarm)
-setup_docker_swarm
+# setup_docker_swarm
 
 # Add current user to the docker group
 sudo usermod -aG docker $USER
