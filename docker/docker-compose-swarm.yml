@@ -67,11 +67,7 @@ services:
       placement:
         constraints:
           - node.role == manager
-      healthcheck:
-        test: ["CMD", "redis-cli", "ping"]
-        interval: 10s
-        timeout: 5s
-        retries: 5
+
 
 networks:
   labpal_network:
