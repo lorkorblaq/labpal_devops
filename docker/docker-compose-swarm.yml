@@ -7,8 +7,12 @@ services:
       - "8080:8080"
     networks:
       - labpal_network
-    restart: always
     deploy:
+      restart_policy:
+        condition: any      
+        delay: 5s           
+        max_attempts: 3
+        window: 240s
       placement:
         constraints:
           - node.role == manager
@@ -19,8 +23,12 @@ services:
       - "3000:3000"
     networks:
       - labpal_network
-    restart: always
     deploy:
+      restart_policy:
+        condition: any      
+        delay: 5s           
+        max_attempts: 3
+        window: 240s
       placement:
         constraints:
           - node.role == manager
@@ -31,8 +39,12 @@ services:
       - "3500:3500"
     networks:
       - labpal_network
-    restart: always
     deploy:
+      restart_policy:
+        condition: any      
+        delay: 5s           
+        max_attempts: 3
+        window: 240s   
       resources:
         limits:
           memory: 2g
@@ -47,11 +59,16 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - letsencrypt_data:/etc/letsencrypt
+      - letsencrypt_data:/etc/letsencrypt/
     networks:
       - labpal_network
-    restart: always
+    
     deploy:
+      restart_policy:
+        condition: any      
+        delay: 5s           
+        max_attempts: 3
+        window: 240s
       placement:
         constraints:
           - node.role == manager
@@ -64,6 +81,11 @@ services:
       - labpal_network
     restart: always
     deploy:
+      restart_policy:
+        condition: any      
+        delay: 5s           
+        max_attempts: 3
+        window: 240s
       placement:
         constraints:
           - node.role == manager

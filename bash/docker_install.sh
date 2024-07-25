@@ -30,7 +30,7 @@ initialize_docker_swarm() {
 setup_docker_swarm() {
     echo "Setting up Docker Swarm..."
     # Replace the placeholder with your Docker Swarm join command
-    local docker_swarm_join_command='docker swarm join --token SWMTKN-1-1dlxfezcudgbmydc44n0rjg558mze4wa1v0148h27p2swgwpsu-2y0rz7h2sjzpun1mll2t81a13 13.48.14.227:2377'
+    local docker_swarm_join_command='docker swarm join --token SWMTKN-1-3uwnk9sz5z5bqtk8h716cy571rdv93drg0uy0yw8438l1b38qv-autc5oc8t5l3u2qizxs8hjx4o 13.48.14.227:2377'
     sudo $docker_swarm_join_command
 }
 
