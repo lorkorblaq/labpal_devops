@@ -62,7 +62,9 @@ services:
       - letsencrypt_data:/etc/letsencrypt/
     networks:
       - labpal_network
-    
+    depends_on:
+      - labpal_main
+      - labpal_api    
     deploy:
       restart_policy:
         condition: any      
