@@ -95,8 +95,7 @@ services:
 
 networks:
   labpal_network:
-    external: true
-    name: labpal_stack_labpal_network
+    driver: overlay
 
 volumes:
   letsencrypt_data:
