@@ -6,7 +6,7 @@ services:
     ports:
       - "8080:8080"
     networks:
-      - labpal_network
+      - labpal_stack_labpal_network
     deploy:
       restart_policy:
         condition: any      
@@ -22,7 +22,7 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - labpal_network
+      - labpal_stack_labpal_network
     deploy:
       restart_policy:
         condition: any      
@@ -38,7 +38,7 @@ services:
     ports:
       - "3500:3500"
     networks:
-      - labpal_network
+      - labpal_stack_labpal_network
     deploy:
       restart_policy:
         condition: any      
@@ -61,7 +61,7 @@ services:
     volumes:
       - letsencrypt_data:/etc/letsencrypt/
     networks:
-      - labpal_network
+      - labpal_stack_labpal_network
     depends_on:
       - labpal_main
       - labpal_api    
@@ -80,7 +80,7 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - labpal_network
+      - labpal_stack_labpal_network
     restart: always
     deploy:
       restart_policy:
@@ -94,7 +94,7 @@ services:
 
 
 networks:
-  labpal_network:
+  labpal_stack_labpal_network:
     driver: overlay
 
 volumes:
