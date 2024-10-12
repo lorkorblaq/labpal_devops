@@ -1,1 +1,2 @@
 /nginx/ssl/selfsigned.key
+/aws/cdk/.env

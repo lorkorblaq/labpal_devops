@@ -1,0 +1,191 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template for ECS services, NLB, and Auto Scaling Group (ASG)
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties: 
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+
+  VPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.0.0/24
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: LabpalCluster
+
+  NetworkLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Type: network
+      Scheme: internet-facing
+      Subnets: 
+        - !Ref PublicSubnet1
+        - !Ref PublicSubnet2
+
+  TargetGroupMain:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: !Ref VPC
+      Port: 8080
+      Protocol: TCP
+      TargetType: instance
+      HealthCheckProtocol: TCP
+      HealthCheckPort: '8080'
+
+  TargetGroupApi:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: !Ref VPC
+      Port: 3000
+      Protocol: TCP
+      TargetType: instance
+      HealthCheckProtocol: TCP
+      HealthCheckPort: '3000'
+
+  NLBListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref NetworkLoadBalancer
+      Port: 80
+      Protocol: TCP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroupMain
+
+  ECSTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: LabpalTaskDef
+      NetworkMode: bridge
+      RequiresCompatibilities:
+        - EC2
+      Cpu: '1024'
+      Memory: '2048'
+      ContainerDefinitions:
+        - Name: LabpalMain
+          Image: "lorkorblaq/labpal_main:latest"
+          Memory: 2048
+          Cpu: 1024
+          PortMappings:
+            - ContainerPort: 8080
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: "/ecs/LabpalMain"
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: "LabpalMain"
+        - Name: LabpalApi
+          Image: "lorkorblaq/labpal_api:latest"
+          Memory: 2048
+          Cpu: 1024
+          PortMappings:
+            - ContainerPort: 3000
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: "/ecs/LabpalApi"
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: "LabpalApi"
+        - Name: LabpalNginx
+          Image: "lorkorblaq/labpal_nginx:secure"
+          Memory: 2048
+          Cpu: 1024
+          PortMappings:
+            - ContainerPort: 80
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: "/ecs/LabpalNginx"
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: "LabpalNginx"
+        - Name: LabpalRedis
+          Image: "lorkorblaq/labpal_redis:latest"
+          Memory: 2048
+          Cpu: 1024
+          PortMappings:
+            - ContainerPort: 6379
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: "/ecs/LabpalRedis"
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: "LabpalRedis"
+
+  AutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      VPCZoneIdentifier:
+        - !Ref PublicSubnet1
+        - !Ref PublicSubnet2
+      MinSize: '1'
+      MaxSize: '4'
+      DesiredCapacity: '1'
+      LaunchConfigurationName: !Ref LaunchConfiguration
+
+  LaunchConfiguration:
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties:
+      InstanceType: t3.micro
+      ImageId: !Ref LatestAmazonLinuxAmi
+      AssociatePublicIpAddress: true
+      IamInstanceProfile: !Ref ECSInstanceProfile
+      SecurityGroups: [!Ref ECSSecurityGroup]
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs:
+            VolumeSize: 20
+            VolumeType: gp2
+
+  ECSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: ECS security group
+      VpcId: !Ref VPC
+
+  ECSInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles: 
+        - !Ref ECSInstanceRole
+
+  ECSInstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role
+
+  LatestAmazonLinuxAmi:
+    Type: "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>"
+    Properties:
+      Name: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
