@@ -47,21 +47,21 @@ if [[ $(lsb_release -si) != "Ubuntu" ]]; then
 fi
 
 # Install Docker on Ubuntu
-install_docker_ubuntu
+# install_docker_ubuntu
 
 # Install Docker Compose
-install_docker_compose
+# install_docker_compose
 
 # Initialize Docker Swarm (only if this is the manager node)
-initialize_docker_swarm
+# initialize_docker_swarm
 
-# Setup Docker Swarm (join an existing Swarm)
+Setup Docker Swarm (join an existing Swarm)
 # setup_docker_swarm
 
 # Add current user to the docker group
-sudo usermod -aG docker $USER
+# sudo usermod -aG docker $USER
 
 # Update permissions on Docker socket
-sudo chmod 666 /var/run/docker.sock
+# sudo chmod 666 /var/run/docker.sock
 
 echo "Docker, Docker Compose, and Docker Swarm setup completed successfully."
