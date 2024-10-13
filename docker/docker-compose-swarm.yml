@@ -56,8 +56,8 @@ services:
   labpal_nginx:
     image: lorkorblaq/labpal_nginx:secure
     ports:
-      - "81:80"
-      - "444:443"
+      - "80:80"
+      - "443:443"
     volumes:
       - letsencrypt_data:/etc/letsencrypt/
     networks:
