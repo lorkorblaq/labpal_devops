@@ -1,0 +1,130 @@
+version: '3.8'
+
+services:
+  labpal_main:
+    image: lorkorblaq/labpal_main:latest
+    ports:
+      - "8080"
+    networks:
+      - labpal_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      replicas: 2  # Adjust replicas to balance across nodes
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 240s
+      placement:
+        preferences:
+          - spread: node.hostname  # Spread across different instances
+
+  labpal_api:
+    image: lorkorblaq/labpal_api:latest
+    ports:
+      - "3000"
+    networks:
+      - labpal_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 240s
+      placement:
+        preferences:
+          - spread: node.hostname
+
+  labpal_gpt:
+    image: lorkorblaq/labpal_gpt:latest
+    ports:
+      - "3500"
+    networks:
+      - labpal_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3500"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 240s
+      resources:
+        limits:
+          memory: 2g
+          cpus: "1.0"
+      placement:
+        preferences:
+          - spread: node.hostname
+
+  labpal_nginx:
+    image: lorkorblaq/labpal_nginx:secure
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - letsencrypt_data:/etc/letsencrypt/
+    networks:
+      - labpal_network
+    depends_on:
+      - labpal_main
+      - labpal_api
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      replicas: 2  # Spread Nginx instances across nodes
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 240s
+      placement:
+        preferences:
+          - spread: node.hostname
+
+  labpal_redis:
+    image: lorkorblaq/labpal_redis:latest
+    ports:
+      - "6379"
+    networks:
+      - labpal_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      replicas: 1  # Redis may not need multiple replicas; adjust as needed
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 240s
+      placement:
+        preferences:
+          - spread: node.hostname
+
+networks:
+  labpal_network:
+    driver: overlay
+
+volumes:
+  letsencrypt_data:
+    external: true

@@ -14,14 +14,14 @@
 # docker push lorkorblaq/labpal_api:latest
 # echo "Image lorkorblaq/labpal_api:latest built and pushed."
 
-docker build -t lorkorblaq/labpal_nginx:secure -f ../../labpal_devops/nginx/Dockerfile ../../labpal_devops/nginx/
-docker push lorkorblaq/labpal_nginx:secure
+# docker build -t lorkorblaq/labpal_nginx:secure -f ../../labpal_devops/nginx/Dockerfile ../../labpal_devops/nginx/
+# docker push lorkorblaq/labpal_nginx:secure
 
 
 # Build and push the seconds image
-# docker build -t lorkorblaq/labpal_main:latest -f ../../labpal_main/Dockerfile ../../labpal_main
-# docker push lorkorblaq/labpal_main:latest
-# echo "Image lorkorblaq/labpal_main:latest built and pushed."
+docker build -t lorkorblaq/labpal_main:latest -f ../../labpal_main/Dockerfile ../../labpal_main
+docker push lorkorblaq/labpal_main:latest
+echo "Image lorkorblaq/labpal_main:latest built and pushed."
 
 # Build and push the seconds image
 # docker build -t public.ecr.aws/a3h1q7q4/labpal/main:latest  -f ../../labpal_main/Dockerfile ../../labpal_main
@@ -44,16 +44,10 @@ docker push lorkorblaq/labpal_nginx:secure
 
 
 # Deploy the updated images
-# ssh labpal_devops << 'EOF'
-# echo "sshing to devops"
-# echo "Changing directory to labpal/labpal_devops/docker"
-# cd labpal_devops/docker || { echo "Failed to change directory"; exit 1; }
-# echo "Running removal of stack script"
-# docker stack rm labpal_stack 
-# docker stack deploy -c docker-compose-swarm.yml labpal_stack
-# echo "Running deploy stack script"
+ssh labpal_devops << 'EOF'
+echo "sshing to devops"
+echo "Rebooting the server..."
+sudo reboot
+EOF
 
-# echo "Deployment completed successfully."
-# EOF
-
-# echo "Docker build, push, and deploy process completed."
+# echo "Docker build, push, and deploy process completed."b 

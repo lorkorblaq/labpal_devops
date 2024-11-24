@@ -22,7 +22,7 @@ install_docker_compose() {
 # Function to initialize Docker Swarm
 initialize_docker_swarm() {
     echo "Initializing Docker Swarm..."
-    local advertise_addr="13.48.14.227" # Replace with your manager's IP address
+    local advertise_addr="54.216.170.60" # Replace with your manager's IP address
     sudo docker swarm init --advertise-addr $advertise_addr
 }
 
@@ -53,15 +53,15 @@ install_docker_ubuntu
 install_docker_compose
 
 # Initialize Docker Swarm (only if this is the manager node)
-# initialize_docker_swarm
+initialize_docker_swarm
 
 # Setup Docker Swarm (join an existing Swarm)
 # setup_docker_swarm
 
 # Add current user to the docker group
-# sudo usermod -aG docker $USER
+sudo usermod -aG docker $USER
 
 # Update permissions on Docker socket
-# sudo chmod 666 /var/run/docker.sock
+sudo chmod 666 /var/run/docker.sock
 
 echo "Docker, Docker Compose, and Docker Swarm setup completed successfully."
