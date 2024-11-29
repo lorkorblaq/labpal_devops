@@ -60,7 +60,6 @@ services:
       - "443:443"
     volumes:
       - letsencrypt_data:/etc/letsencrypt/
-      - letsencrypt_webroot:/var/www/certbot  # Shared webroot for Let's Encrypt
     networks:
       - labpal_network
     depends_on:
@@ -93,21 +92,6 @@ services:
         constraints:
           - node.role == manager
 
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - letsencrypt_data:/etc/letsencrypt
-      - letsencrypt_webroot:/var/www/certbot  # Shared webroot for domain validation
-    networks:
-      - labpal_network
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 7d & wait $${!}; certbot renew && docker exec <nginx-container-id> nginx -s reload; done;'"
-    deploy:
-      restart_policy:
-        condition: any      
-        delay: 5s           
-        max_attempts: 3
-        window: 240s
-
 networks:
   labpal_network:
     driver: overlay
@@ -115,5 +99,3 @@ networks:
 volumes:
   letsencrypt_data:
     external: true
-  letsencrypt_webroot:
-    external: false  # This is internal to Docker and can be auto-created
