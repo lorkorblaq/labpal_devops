@@ -10,9 +10,9 @@
 # docker rmi $(docker images -a -q)
 
 
-# docker build -t lorkorblaq/labpal_api:latest -f ../../labpal_api/Dockerfile ../../labpal_api
-# docker push lorkorblaq/labpal_api:latest
-# echo "Image lorkorblaq/labpal_api:latest built and pushed."
+docker build -t lorkorblaq/labpal_api:latest -f ../../labpal_api/Dockerfile ../../labpal_api
+docker push lorkorblaq/labpal_api:latest
+echo "Image lorkorblaq/labpal_api:latest built and pushed."
 
 # docker build -t lorkorblaq/labpal_nginx:secure -f ../../labpal_devops/nginx/Dockerfile ../../labpal_devops/nginx/
 # docker push lorkorblaq/labpal_nginx:secure
@@ -44,10 +44,10 @@ echo "Image lorkorblaq/labpal_main:latest built and pushed."
 
 
 # Deploy the updated images
-ssh labpal_devops << 'EOF'
-echo "sshing to devops"
-echo "Rebooting the server..."
-sudo reboot
-EOF
+# ssh labpal_devops << 'EOF'
+# echo "sshing to devops"
+# echo "Rebooting the server..."
+# sudo reboot
+# EOF
 
 # echo "Docker build, push, and deploy process completed."b 
