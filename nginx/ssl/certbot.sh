@@ -9,7 +9,7 @@ sudo systemctl start nginx
 sudo systemctl enable nginx
 
 # Define domain and email
-DOMAIN="labpal.com.ng"
+DOMAIN="labpal.greaseware.com"
 EMAIL="f3mioloko@gmail.com"
 
 # Run Certbot using the Nginx plugin to obtain/renew certificate
